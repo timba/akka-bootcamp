@@ -4,7 +4,6 @@ using Akka.Actor.Internals;
 
 namespace WinTail
 {
-    #region Program
     class Program
     {
         public static ActorSystem MyActorSystem;
@@ -13,14 +12,15 @@ namespace WinTail
         {
             // initialize MyActorSystem
             MyActorSystem = ActorSystem.Create("MyActorSystem");
+            
+            Props consoleWriterProps = Props.Create<ConsoleWriterActor>();
+            ActorRef consoleWriterActor = MyActorSystem.ActorOf(consoleWriterProps, "consoleWriterActor");
 
-            // time to make your first actors!
-            ActorRef consoleWriterActor = MyActorSystem.ActorOf(Props.Create(() => new ConsoleWriterActor()),
-                "consoleWriterActor");
-            ActorRef consoleReaderActor =
-                MyActorSystem.ActorOf(Props.Create(() => new ConsoleReaderActor(consoleWriterActor)),
-                    "consoleReaderActor");
+            Props validationActorProps = Props.Create(() => new ValidationActor(consoleWriterActor));
+            ActorRef validationActor = MyActorSystem.ActorOf(validationActorProps, "validationActor");
 
+            Props consoleReaderProps = Props.Create<ConsoleReaderActor>(validationActor);
+            ActorRef consoleReaderActor = MyActorSystem.ActorOf(consoleReaderProps, "consoleReaderActor");
 
             // tell console reader to begin
             consoleReaderActor.Tell(ConsoleReaderActor.StartCommand);
@@ -29,5 +29,4 @@ namespace WinTail
             MyActorSystem.AwaitTermination();
         }
     }
-    #endregion
 }
