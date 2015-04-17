@@ -6,10 +6,10 @@ namespace WinTail
 {
 	public class FileValidatorActor : UntypedActor
 	{
-		private readonly ActorRef _consoleWriterActor;
-		private readonly ActorRef _tailCoordinatorActor;
+		private readonly IActorRef _consoleWriterActor;
+		private readonly IActorRef _tailCoordinatorActor;
 
-		public FileValidatorActor (ActorRef _consoleWriterActor, ActorRef _tailCoordinatorActor)
+		public FileValidatorActor (IActorRef _consoleWriterActor, IActorRef _tailCoordinatorActor)
 		{
 			this._consoleWriterActor = _consoleWriterActor;
 			this._tailCoordinatorActor = _tailCoordinatorActor;

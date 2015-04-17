@@ -1,6 +1,5 @@
 ﻿using System;
 using Akka.Actor;
-using Akka.Actor.Internals;
 
 namespace WinTail
 {
@@ -14,16 +13,16 @@ namespace WinTail
             MyActorSystem = ActorSystem.Create("MyActorSystem");
             
             Props consoleWriterProps = Props.Create(() => new ConsoleWriterActor());
-            ActorRef consoleWriterActor = MyActorSystem.ActorOf(consoleWriterProps, "consoleWriterActor");
+            IActorRef consoleWriterActor = MyActorSystem.ActorOf(consoleWriterProps, "consoleWriterActor");
 
 			Props tailCoordinatorProps = Props.Create(() => new TailCoordinatorActor());
-			ActorRef tailCoordinatorActor = MyActorSystem.ActorOf(tailCoordinatorProps, "tailCoordinatorActor");
+			IActorRef tailCoordinatorActor = MyActorSystem.ActorOf(tailCoordinatorProps, "tailCoordinatorActor");
 
             Props fileValidatorActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor, tailCoordinatorActor));
-            ActorRef fileValidatorActor = MyActorSystem.ActorOf(fileValidatorActorProps, "validationActor");
+            IActorRef fileValidatorActor = MyActorSystem.ActorOf(fileValidatorActorProps, "validationActor");
 
             Props consoleReaderProps = Props.Create(() => new ConsoleReaderActor(fileValidatorActor));
-            ActorRef consoleReaderActor = MyActorSystem.ActorOf(consoleReaderProps, "consoleReaderActor");
+            IActorRef consoleReaderActor = MyActorSystem.ActorOf(consoleReaderProps, "consoleReaderActor");
 
             // tell console reader to begin
             consoleReaderActor.Tell(ConsoleReaderActor.StartCommand);

@@ -11,9 +11,9 @@ namespace WinTail
     {
         public const string ExitCommand = "exit";
         public const string StartCommand = "start";
-        private ActorRef _validationActor;
+        private IActorRef _validationActor;
 
-        public ConsoleReaderActor(ActorRef validationActor)
+        public ConsoleReaderActor(IActorRef validationActor)
         {
             _validationActor = validationActor;
         }

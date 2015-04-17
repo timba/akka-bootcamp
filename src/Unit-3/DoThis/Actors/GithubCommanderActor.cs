@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Akka.Actor;
+using Akka.Routing;
 
 namespace GithubActors.Actors
 {
@@ -42,8 +44,8 @@ namespace GithubActors.Actors
 
         #endregion
 
-        private ActorRef _coordinator;
-        private ActorRef _canAcceptJobSender;
+        private IActorRef _coordinator;
+        private IActorRef _canAcceptJobSender;
 
         public GithubCommanderActor()
         {

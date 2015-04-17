@@ -55,13 +55,13 @@ namespace WinTail
 			
 		#endregion
 
-		private readonly ActorRef _reporterActor;
+		private readonly IActorRef _reporterActor;
 		private readonly string _filePath;
 		private readonly FileObserver _observer;
 		private readonly FileStream _fileStream;
 		private readonly StreamReader _fileStreamReader;
 
-		public TailActor(ActorRef reporterActor, string filePath)
+		public TailActor(IActorRef reporterActor, string filePath)
 		{
 			_reporterActor = reporterActor;
 			_filePath = filePath;
